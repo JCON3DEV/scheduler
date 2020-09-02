@@ -19,6 +19,14 @@ import Status from "components/Appointment/Status";
 import Error from "components/Appointment/Error";
 import Form from "components/Appointment/Form";
 
+const interviewers = [
+  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
+  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
+  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
+  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
+  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
+];
+
 const days = [
   {
     id: 1,
@@ -86,12 +94,12 @@ storiesOf("Appointment", module)
   .add("Appointment", () => <Appointment />)
   .add("Appointment with Time", () => <Appointment time="12pm" />)
   .add("Header", () => <Header time="12pm" />)
-  .add("Empty", () => <Empty onClick={action("onAdd")} />)
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
   .add("Show", () => <Show onEdit={action("onEdit")} onDelete={action("onDelete")} />)
-  .add("Confirm", () => <Confirm onConfirm={action("onConfirm")} />)
+  .add("Confirm", () => <Confirm onConfirm={action("onConfirm")} onCancel={action("onCancel")} />)
   .add("Status", () => <Status />)
   .add("Error", () => <Error onClose={action("onClose")} />)
-  .add("Form", () => <Form onCancel={action("onCancel")} onSave={action("onSave")}/>)
+  .add("Form", () => <Form interviewers={interviewers} onCancel={action("onCancel")} onSave={action("onSave")}/>)
 
 
 
@@ -130,13 +138,6 @@ storiesOf("InterviewerListItem", module)
   ));
 
 
-const interviewers = [
-  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
-  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
-  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
-  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
-  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-];
 
 storiesOf("InterviewerList", module)
   .addParameters({
