@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import DayList from "components/DayList";
-import Appointment from "components/Appointment";
+import Appointment from "components/Appointment/index";
 import InterviewerListItem from "components/InterviewerListItem";
 import "components/Application.scss";
+import Empty from "components/Appointment/Empty";
+import Header from "components/Appointment/Header";
+import Show from "components/Appointment/Show";
+import Confirm from "components/Appointment/Confirm";
 
 
 const days = [
@@ -28,12 +32,6 @@ export default function Application(props) {
   return (
     <main className="layout">
       <section className="sidebar">
-        {/* <nav><DayList
-          days={days}
-          day={"Monday"}
-          setDay={day => console.log(day)}
-        />
-        </nav>  */}
             <nav>
                <DayList
                 days={days}
@@ -56,7 +54,11 @@ export default function Application(props) {
       <h1>This is my scheduler</h1>
       <h2>{Application}</h2>
       <div>
-        {InterviewerListItem}
+        <InterviewerListItem/>
+        <Header/>
+        <Empty/>
+        <Show/>
+        <Confirm/>
         <p>Bollocks</p>
       </div>
 
