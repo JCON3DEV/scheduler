@@ -1,10 +1,17 @@
-import React from "react";
+import React, { Fragment } from "react";
 // import "components/application.css";
-import classnames from "classnames";
+import Header from "./Header";
+import Show from "./Show";
+import Empty from "./Empty";
 import "./styles.scss";
-import { storiesOf } from "@storybook/react";
+
 
 export default function Appointment(props) {
-
-  return <p>This is the new Appointment index.js</p>
+  console.log("appointment props:", props);
+  return (
+    <div className= "appoinment">
+      <Header time={props.time}></Header>
+      {props.interview ? <Show student={props.interview.student} interviewer={props.interview.interviewer}></Show> : <Empty></Empty>}
+  </div>
+)
 }

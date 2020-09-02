@@ -1,8 +1,9 @@
 import React from "react";
 
 export default function Header(props) {
-  console.log("Error pg, props glorious props", props);
-  return <main className="appointment__card appointment__card--error">
+  // console.log("Error pg, props glorious props", props);
+  return (
+    <main className="appointment__card appointment__card--error">
     <section className="appointment__error-message">
       <h1 className="text--semi-bold">Error</h1>
       <h3 className="text--light">{props.message || "Could not delete appointment"}</h3>
@@ -15,5 +16,5 @@ export default function Header(props) {
       // this has to be onClick instead of onClose because it is a DOM element and not a props
     />
   </main>
-
+  )
 }
