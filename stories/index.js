@@ -15,6 +15,9 @@ import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
 import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 const days = [
   {
@@ -83,9 +86,12 @@ storiesOf("Appointment", module)
   .add("Appointment", () => <Appointment />)
   .add("Appointment with Time", () => <Appointment time="12pm" />)
   .add("Header", () => <Header time="12pm" />)
-  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  .add("Empty", () => <Empty onClick={action("onAdd")} />)
   .add("Show", () => <Show onEdit={action("onEdit")} onDelete={action("onDelete")} />)
-  .add("Confirm", () => <Show onConfirm={action("onConfirm")} />)
+  .add("Confirm", () => <Confirm onConfirm={action("onConfirm")} />)
+  .add("Status", () => <Status />)
+  .add("Error", () => <Error onClose={action("onClose")} />)
+  .add("Form", () => <Form onCancel={action("onCancel")} onSave={action("onSave")}/>)
 
 
 

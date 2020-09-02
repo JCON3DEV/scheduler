@@ -7,6 +7,8 @@ import Empty from "components/Appointment/Empty";
 import Header from "components/Appointment/Header";
 import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
+import Form from "components/Appointment/Form";
 
 
 const days = [
@@ -54,11 +56,14 @@ export default function Application(props) {
       <h1>This is my scheduler</h1>
       <h2>{Application}</h2>
       <div>
+        <Appointment/>
         <InterviewerListItem/>
         <Header/>
         <Empty/>
         <Show/>
+        <Status />
         <Confirm/>
+        <Form />
         <p>Bollocks</p>
       </div>
 
