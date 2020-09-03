@@ -86,6 +86,11 @@ storiesOf("DayList", module)
     <DayList days={days} day={"Tuesday"} setDay={action("setDay")} />
   ));
 
+  const interviewer = {
+    id: 1,
+    name: "Sylvia Palmer",
+    avatar: "https://i.imgur.com/LpaY82x.png"
+  };
 
 
 storiesOf("Appointment", module)
@@ -96,7 +101,7 @@ storiesOf("Appointment", module)
   .add("Appointment with Time", () => <Appointment time="12pm" />)
   .add("Header", () => <Header time="12pm" />)
   .add("Empty", () => <Empty onAdd={action("onAdd")} />)
-  .add("Show", () => <Show onEdit={action("onEdit")} onDelete={action("onDelete")} />)
+  .add("Show", () => <Show interviewer={interviewer} onEdit={action("onEdit")} onDelete={action("onDelete")} />)
   .add("Confirm", () => <Confirm onConfirm={action("onConfirm")} onCancel={action("onCancel")} />)
   .add("Status", () => <Status />)
   .add("Error", () => <Error onClose={action("onClose")} />)
@@ -121,11 +126,6 @@ storiesOf("Appointment", module)
 
 
 
-const interviewer = {
-  id: 1,
-  name: "Sylvia Palmer",
-  avatar: "https://i.imgur.com/LpaY82x.png"
-};
 
 storiesOf("InterviewerListItem", module)
   .addParameters({
