@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 import DayList from "components/DayList";
 import Appointment from "components/Appointment/index";
-import InterviewerListItem from "components/InterviewerListItem";
 import "components/Application.scss";
-import Empty from "components/Appointment/Empty";
-import Header from "components/Appointment/Header";
-import Show from "components/Appointment/Show";
-import Confirm from "components/Appointment/Confirm";
-import Status from "components/Appointment/Status";
-import Form from "components/Appointment/Form";
+// import InterviewerListItem from "components/InterviewerListItem";
+// import Empty from "components/Appointment/Empty";
+// import Header from "components/Appointment/Header";
+// import Show from "components/Appointment/Show";
+// import Confirm from "components/Appointment/Confirm";
+// import Status from "components/Appointment/Status";
+// import Form from "components/Appointment/Form";
 // import Appointment from "components/Appointment";
 
 const appData = [
@@ -56,28 +58,22 @@ const appData = [
       }
     }
   }
-];
-
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
-
+];        
+        
 export default function Application(props) {
   const [state, setState] = useState("Monday");
+  const [days, setDays] = useState([]);
+
+  useEffect( () =>{
+    axios.get("http://localhost:8001/api/days")
+    .then(function (response){
+      console.log(response.data)
+      // either days.props is undefined or day.props.map is not a function
+      // response.name ??
+      setDays(response.data)
+    }
+    )
+  }, [state])
 
   const appointments = appData.map( (appointment)=> {
     return <Appointment 
