@@ -4,6 +4,7 @@ import axios from "axios";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment/index";
 import "components/Application.scss";
+import getAppointmentsForDay from "helpers/selectors.js";
 // import InterviewerListItem from "components/InterviewerListItem";
 // import Empty from "components/Appointment/Empty";
 // import Header from "components/Appointment/Header";
@@ -59,21 +60,23 @@ const appData = [
     }
   }
 ];        
-        
+// alaising whaaat?
+
 export default function Application(props) {
-  const [state, setState] = useState("Monday");
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    day:"Monday",
+    days: [],
+    appointments: {}  
+  });
+  const setDay = (day) => setState({ ...state, day });
+  const setDays = (days) => setState({ ...state, days });
+  // const [days, setDays] = useState([]);
 
   useEffect( () =>{
     axios.get("http://localhost:8001/api/days")
-    .then(function (response){
-      console.log(response.data)
-      // either days.props is undefined or day.props.map is not a function
-      // response.name ??
-      setDays(response.data)
-    }
-    )
-  }, [state])
+    .then(response => setDays(response.data));
+  }, []);
+  // the empty square brackts means that use effect runs only once after the render
 
   const appointments = appData.map( (appointment)=> {
     return <Appointment 
@@ -84,11 +87,18 @@ export default function Application(props) {
       />
   } );
 
+
   return (
     <main className="layout">
       <section className="sidebar">
         <nav>
-          <DayList days={days} day={state} setDay={setState} />
+          <DayList
+            setState{
+            ...state}
+            day={state.day}
+            days={state.days}
+            setDay={setState}
+             />
         </nav>
         <img
           className="sidebar--centered"
@@ -105,7 +115,7 @@ export default function Application(props) {
       </section>
       {/* <h1>This is my scheduler</h1> */}
       <section className="schedule">
-          <li>{appointments}</li>
+        <li>{appointments}</li>
       </section>
     </main>
   );
