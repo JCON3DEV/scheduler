@@ -28,8 +28,8 @@ const appData = [
         id: 1,
         name: "Sylvia Palmer",
         avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
+      },
+    },
   },
   {
     id: 3,
@@ -40,8 +40,8 @@ const appData = [
         id: 5,
         name: "Sven Jones",
         avatar: "https://i.imgur.com/twYrpay.jpg",
-      }
-    }
+      },
+    },
   },
   {
     id: 4,
@@ -56,49 +56,63 @@ const appData = [
         id: 5,
         name: "Tori Malcolm",
         avatar: "https://i.imgur.com/Nmx0Qxo.png",
-      }
-    }
-  }
-];        
-// alaising whaaat?
+      },
+    },
+  },
+];
 
 export default function Application(props) {
   const [state, setState] = useState({
-    day:"Monday",
+    day: "Monday",
     days: [],
-    appointments: {}  
+    appointments: {},
   });
+  console.log("Orriginal state;", state);
   const setDay = (day) => setState({ ...state, day });
-  const setDays = (days) => setState({ ...state, days });
-  // const [days, setDays] = useState([]);
+  // const setDays = (days) => setState({ ...state, days });
 
-  useEffect( () =>{
-    axios.get("http://localhost:8001/api/days")
-    .then(response => setDays(response.data));
+  // const [days, setDays] = useState([]);
+  //  Below collects the days data from server
+  useEffect(() => {
+    Promise.all([
+      axios.get("http://localhost:8001/api/days"),
+      axios.get("http://localhost:8001/api/appointments"),
+    ]).then((responses) => {
+      console.log("the retured info ", responses);
+      setState({
+        ...state,
+        days: responses[0].data,
+        appointments: responses[1].data,
+      });
+      console.log("Current state;", state);
+    });
   }, []);
+  // responses[0].data = days
+  // responses[1].data = appontments
   // the empty square brackts means that use effect runs only once after the render
 
-  const appointments = appData.map( (appointment)=> {
-    return <Appointment 
-      key = {appointment.id}
-      // time = {appointment.time}
-      // interview = {appointment.interview}
-      {...appointment}
+  const appointments = appData.map((appointment) => {
+    return (
+      <Appointment
+        key={appointment.id}
+        // time = {appointment.time}
+        // interview = {appointment.interview}
+        {...appointment}
       />
-  } );
-
+    );
+  });
 
   return (
     <main className="layout">
       <section className="sidebar">
         <nav>
           <DayList
-            setState{
-            ...state}
+            setState
+            {...state}
             day={state.day}
             days={state.days}
             setDay={setState}
-             />
+          />
         </nav>
         <img
           className="sidebar--centered"
