@@ -4,7 +4,9 @@ import axios from "axios";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment/index";
 import "components/Application.scss";
-import getAppointmentsForDay from "helpers/selectors.js";
+import { getAppointmentsForDay } from "helpers/selectors.js";
+import { getInterview } from "helpers/selectors.js";
+
 // import InterviewerListItem from "components/InterviewerListItem";
 // import Empty from "components/Appointment/Empty";
 // import Header from "components/Appointment/Header";
@@ -14,60 +16,69 @@ import getAppointmentsForDay from "helpers/selectors.js";
 // import Form from "components/Appointment/Form";
 // import Appointment from "components/Appointment";
 
-const appData = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      },
-    },
-  },
-  {
-    id: 3,
-    time: "2pm",
-    interview: {
-      student: "Dom Jolly",
-      interviewer: {
-        id: 5,
-        name: "Sven Jones",
-        avatar: "https://i.imgur.com/twYrpay.jpg",
-      },
-    },
-  },
-  {
-    id: 4,
-    time: "3pm",
-  },
-  {
-    id: 5,
-    time: "4pm",
-    interview: {
-      student: "Bob Hoskins",
-      interviewer: {
-        id: 5,
-        name: "Tori Malcolm",
-        avatar: "https://i.imgur.com/Nmx0Qxo.png",
-      },
-    },
-  },
-];
+// const appData = [
+//   {
+//     id: 1,
+//     time: "12pm",
+//   },
+//   {
+//     id: 2,
+//     time: "1pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 1,
+//         name: "Sylvia Palmer",
+//         avatar: "https://i.imgur.com/LpaY82x.png",
+//       },
+//     },
+//   },
+//   {
+//     id: 3,
+//     time: "2pm",
+//     interview: {
+//       student: "Dom Jolly",
+//       interviewer: {
+//         id: 5,
+//         name: "Sven Jones",
+//         avatar: "https://i.imgur.com/twYrpay.jpg",
+//       },
+//     },
+//   },
+//   {
+//     id: 4,
+//     time: "3pm",
+//   },
+//   {
+//     id: 5,
+//     time: "4pm",
+//     interview: {
+//       student: "Bob Hoskins",
+//       interviewer: {
+//         id: 5,
+//         name: "Tori Malcolm",
+//         avatar: "https://i.imgur.com/Nmx0Qxo.png",
+//       },
+//     },
+//   },
+// ];
 
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
-    days: [],
+    days: [
+      // {
+      //   id: 1,
+      //   name: "Monday",
+      //   appointments: Array(5),
+      //   interviewers: Array(5),
+      //   spots: 3,
+      // },
+    ],
     appointments: {},
+    interviewers: {},
   });
-  console.log("Orriginal state;", state);
+  // console.log("Orriginal state;", state);
   const setDay = (day) => setState({ ...state, day });
   // const setDays = (days) => setState({ ...state, days });
 
@@ -77,30 +88,47 @@ export default function Application(props) {
     Promise.all([
       axios.get("http://localhost:8001/api/days"),
       axios.get("http://localhost:8001/api/appointments"),
+      axios.get("http://localhost:8001/api/interviewers"),
     ]).then((responses) => {
-      console.log("the retured info ", responses);
+      // console.log("the retured info ", responses);
       setState({
         ...state,
         days: responses[0].data,
         appointments: responses[1].data,
+        interviewers: responses[2].data,
       });
-      console.log("Current state;", state);
+      // console.log("Current state;", state);
     });
   }, []);
   // responses[0].data = days
   // responses[1].data = appontments
   // the empty square brackts means that use effect runs only once after the render
+  let appointments = getAppointmentsForDay(state, state.day);
 
-  const appointments = appData.map((appointment) => {
+  let appointmentsList = appointments.map((appointment) => {
+    const interviews = getInterview(state, appointment.interview);
+    console.log("What is this", interviews); // empty array
+    console.log(appointment);
     return (
       <Appointment
         key={appointment.id}
-        // time = {appointment.time}
-        // interview = {appointment.interview}
-        {...appointment}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interviews}
+        // {...appointment}
       />
     );
   });
+  // const appointments = state.appointments.map((appointment) => {
+  //   return (
+  //     <Appointment
+  //       key={appointment.id}
+  //       // time = {appointment.time}
+  //       // interview = {appointment.interview}
+  //       {...appointment}
+  //     />
+  //   );
+  // });
 
   return (
     <main className="layout">
@@ -111,7 +139,7 @@ export default function Application(props) {
             {...state}
             day={state.day}
             days={state.days}
-            setDay={setState}
+            setDay={setDay}
           />
         </nav>
         <img
@@ -128,9 +156,7 @@ export default function Application(props) {
         />
       </section>
       {/* <h1>This is my scheduler</h1> */}
-      <section className="schedule">
-        <li>{appointments}</li>
-      </section>
+      <section className="schedule">{appointmentsList}</section>
     </main>
   );
 }

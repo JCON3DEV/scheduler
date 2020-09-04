@@ -5,13 +5,19 @@ import Show from "./Show";
 import Empty from "./Empty";
 import "./styles.scss";
 
-
 export default function Appointment(props) {
-  console.log("appointment props:", props);
+  // console.log("appointment props:", props);
   return (
-    <div className= "appoinment">
+    <div className="appoinment">
       <Header time={props.time}></Header>
-      {props.interview ? <Show student={props.interview.student} interviewer={props.interview.interviewer}></Show> : <Empty></Empty>}
-  </div>
-)
+      {props.interview ? (
+        <Show
+          student={props.interview.student}
+          interviewer={props.interview.interviewer}
+        ></Show>
+      ) : (
+        <Empty></Empty>
+      )}
+    </div>
+  );
 }
