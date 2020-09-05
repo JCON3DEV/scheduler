@@ -31,6 +31,7 @@ export default function Application(props) {
     appointments: {},
     interviewers: [],
     // previously interviewers was an object
+    //this will require a getInterviewersForDay function at some point
   });
   // console.log("Orriginal state;", state);
   const setDay = (day) => setState({ ...state, day });

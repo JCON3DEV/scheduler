@@ -21,7 +21,7 @@ export default function Appointment(props) {
       <Header time={props.time}></Header>
       {mode === SHOW && <Show />}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === CREATE && <Form />}
+      {mode === CREATE && <Form onCancel={() => transition(EMPTY)} />}
 
       {/* {transition(Empty)} */}
       {/* {transition(Show)} */}
