@@ -29,7 +29,8 @@ export default function Application(props) {
       // },
     ],
     appointments: {},
-    interviewers: {},
+    interviewers: [],
+    // previously interviewers was an object
   });
   // console.log("Orriginal state;", state);
   const setDay = (day) => setState({ ...state, day });
@@ -48,7 +49,7 @@ export default function Application(props) {
         ...state,
         days: responses[0].data,
         appointments: responses[1].data,
-        interviewers: responses[2].data,
+        interviewers: [], //responses[2].data,
       });
       // console.log("Current state;", state);
     });
