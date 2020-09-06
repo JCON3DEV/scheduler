@@ -6,6 +6,7 @@ import Appointment from "components/Appointment/index";
 import "components/Application.scss";
 import { getAppointmentsForDay } from "helpers/selectors.js";
 import { getInterview } from "helpers/selectors.js";
+import { getInterviewersForDay } from "helpers/selectors.js";
 
 // import InterviewerListItem from "components/InterviewerListItem";
 // import Empty from "components/Appointment/Empty";
@@ -19,20 +20,13 @@ import { getInterview } from "helpers/selectors.js";
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
-    days: [
-      // {
-      //   id: 1,
-      //   name: "Monday",
-      //   appointments: Array(5),
-      //   interviewers: Array(5),
-      //   spots: 3,
-      // },
-    ],
+    days: [],
+    // what is days?
     appointments: {},
     interviewers: [],
     // previously interviewers was an object
-    //this will require a getInterviewersForDay function at some point
   });
+
   // console.log("Orriginal state;", state);
   const setDay = (day) => setState({ ...state, day });
   // const setDays = (days) => setState({ ...state, days });
@@ -50,17 +44,20 @@ export default function Application(props) {
         ...state,
         days: responses[0].data,
         appointments: responses[1].data,
-        interviewers: [], //responses[2].data,
+        interviewers: responses[2].data,
       });
+      console.log("********", responses[2].data);
       // console.log("Current state;", state);
     });
   }, []);
   // responses[0].data = days
   // responses[1].data = appontments
   // the empty square brackts means that use effect runs only once after the render
+
   let appointments = getAppointmentsForDay(state, state.day);
 
   let appointmentsList = appointments.map((appointment) => {
+    const interviewers = getInterviewersForDay(state, state.day);
     const interviews = getInterview(state, appointment.interview);
     console.log("What is this", interviews); // empty array
     console.log(appointment);
@@ -70,6 +67,7 @@ export default function Application(props) {
         id={appointment.id}
         time={appointment.time}
         interview={interviews}
+        interviewers={interviewers}
         // {...appointment}
       />
     );

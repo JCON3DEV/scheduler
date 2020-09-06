@@ -71,6 +71,8 @@ export function getInterviewersForDay(state, day) {
   });
   // console.log("selector function output;", result);
   // console.log("length of result", result.length);
+  // console.log("day", day);
+  // console.log("results; ", result);
   return result;
 }
 
