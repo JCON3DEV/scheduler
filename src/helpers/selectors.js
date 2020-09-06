@@ -54,3 +54,27 @@ time: "12pm"
 __proto__: Object
 }
 */
+export function getInterviewersForDay(state, day) {
+  if (state.days.length === 0) {
+    return [];
+  }
+  const filteredDays = state.days.find((dayObject) => dayObject.name === day);
+  if (!filteredDays) {
+    return [];
+  }
+  const result = filteredDays.interviewers.map((interviewersId) => {
+    if (!state.interviewers[interviewersId].interview) {
+      return undefined;
+    }
+
+    return state.interviewers[interviewersId];
+  });
+  // console.log("selector function output;", result);
+  // console.log("length of result", result.length);
+  return result;
+}
+
+// console.log(
+//   "state.appointments[appointmentId];",
+//   state.appointments[appointmentId]
+// );
