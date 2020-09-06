@@ -63,10 +63,9 @@ export function getInterviewersForDay(state, day) {
     return [];
   }
   const result = filteredDays.interviewers.map((interviewersId) => {
-    if (!state.interviewers[interviewersId].interview) {
-      return undefined;
+    if (!state.interviewers) {
+      return;
     }
-
     return state.interviewers[interviewersId];
   });
   // console.log("selector function output;", result);

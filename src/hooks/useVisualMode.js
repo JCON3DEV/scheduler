@@ -6,10 +6,8 @@ export default function useVisualMode(initial) {
 
   function transition(newMode, replace = false) {
     if (replace) {
-      // console.log("history:", history);
       // below order is very importants. Do not change;
       setMode(newMode);
-      // console.log("newMode", newMode);
       setHistory((history) => {
         let newHistory = history.slice(0, -1);
         return [...newHistory, newMode];
@@ -22,7 +20,6 @@ export default function useVisualMode(initial) {
     // history.push(newMode);
   }
   function back() {
-    // console.log("history in the back function", history);
     if (history.length > 1) {
       setMode(history[history.length - 2]);
       setHistory(history.slice(0, -1));

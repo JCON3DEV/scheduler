@@ -58,16 +58,29 @@ export default function Application(props) {
 
   let appointmentsList = appointments.map((appointment) => {
     const interviewers = getInterviewersForDay(state, state.day);
-    const interviews = getInterview(state, appointment.interview);
-    console.log("What is this", interviews); // empty array
-    console.log(appointment);
+    const interview = getInterview(state, appointment.interview);
+    console.log("What is this interview; ", interview);
+    console.log("THis is interviewers;.....", interviewers);
+
+    const blah = function bookInterview(id, interview) {
+      console.log(id, interview);
+    };
+    const gibby = function save(name, interviewer) {
+      const interview = {
+        student: name,
+        interviewer,
+      };
+    };
+
     return (
       <Appointment
         key={appointment.id}
         id={appointment.id}
         time={appointment.time}
-        interview={interviews}
+        interview={interview}
         interviewers={interviewers}
+        mongo={blah}
+        save={gibby}
         // {...appointment}
       />
     );

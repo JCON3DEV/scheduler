@@ -8,7 +8,7 @@ import useVisualMode from "../../hooks/useVisualMode";
 import "./styles.scss";
 
 export default function Appointment(props) {
-  // console.log("appointment props:", props);
+  console.log("appointment props:......", props);
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -21,7 +21,12 @@ export default function Appointment(props) {
       <Header time={props.time}></Header>
       {mode === SHOW && <Show />}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === CREATE && <Form onCancel={() => transition(EMPTY)} />}
+      {mode === CREATE && (
+        <Form
+          onCancel={() => transition(EMPTY)}
+          onSave={() => transition(SHOW)}
+        />
+      )}
 
       {/* {transition(Empty)} */}
       {/* {transition(Show)} */}
