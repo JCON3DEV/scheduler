@@ -23,11 +23,11 @@ export default function Application(props) {
     days: [],
     // what is days?
     appointments: {},
-    interviewers: [],
+    interviewers: {},
     // previously interviewers was an object
   });
 
-  // console.log("Orriginal state;", state);
+  console.log("Orriginal state before axios;", state);
   const setDay = (day) => setState({ ...state, day });
   // const setDays = (days) => setState({ ...state, days });
 
@@ -39,15 +39,15 @@ export default function Application(props) {
       axios.get("http://localhost:8001/api/appointments"),
       axios.get("http://localhost:8001/api/interviewers"),
     ]).then((responses) => {
-      // console.log("the retured info ", responses);
-      setState({
-        ...state,
+      console.log("the retured info ", responses);
+      setState((prev) => ({
+        ...prev,
         days: responses[0].data,
         appointments: responses[1].data,
         interviewers: responses[2].data,
-      });
-      console.log("********", responses[2].data);
-      // console.log("Current state;", state);
+      }));
+      // console.log("********", responses[2].data);
+      console.log("Current state;", state);
     });
   }, []);
   // responses[0].data = days
@@ -55,32 +55,37 @@ export default function Application(props) {
   // the empty square brackts means that use effect runs only once after the render
 
   let appointments = getAppointmentsForDay(state, state.day);
+  // console.log("CHECK IT,.....", appointments);
+  const interviewersArray = getInterviewersForDay(state, state.day);
+  // console.log("What is this interview; ", interview);
+  // console.log("THis is interviewers;.....", interviewers);
+
+  const bookInterview = function (id, interview) {
+    console.log("book INterview function id and interview;", id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    setState({ ...state, appointments });
+    console.log("NEW STATE; .....", state);
+  };
+  // console.log("interview OBJ *** ", interview);
 
   let appointmentsList = appointments.map((appointment) => {
-    const interviewers = getInterviewersForDay(state, state.day);
     const interview = getInterview(state, appointment.interview);
-    console.log("What is this interview; ", interview);
-    console.log("THis is interviewers;.....", interviewers);
-
-    const blah = function bookInterview(id, interview) {
-      console.log(id, interview);
-    };
-    const gibby = function save(name, interviewer) {
-      const interview = {
-        student: name,
-        interviewer,
-      };
-    };
-
+    console.log("%%%%%%%", interview);
     return (
       <Appointment
         key={appointment.id}
         id={appointment.id}
         time={appointment.time}
         interview={interview}
-        interviewers={interviewers}
-        mongo={blah}
-        save={gibby}
+        interviewers={interviewersArray}
+        bookInterview={bookInterview}
         // {...appointment}
       />
     );

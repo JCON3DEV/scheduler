@@ -13,6 +13,7 @@ export default function Form(props) {
     setName("");
     props.onCancel(); //this is an empty fake function for testing
   };
+  console.log("interviewer name and interviewer", name, interviewer);
   const saveMethod = (nameOfStudent, interviewernumber) => {
     props.onSave(name, interviewer); //this is an empty fake function for testing
   };
@@ -34,6 +35,8 @@ export default function Form(props) {
           interviewers={props.interviewers}
           interviewer={interviewer}
           setInterviewer={setInterviewer}
+          // saveMethod={saveMethod}
+          // resetMethod={resetMethod}
         />
       </section>
       <section className="appointment__card-right">
@@ -42,7 +45,7 @@ export default function Form(props) {
             Cancel
           </Button>{" "}
           {/*resetMethod()*/}
-          <Button confirm onClick={saveMethod}>
+          <Button confirm onClick={(event) => props.onSave(name, interviewer)}>
             Save
           </Button>{" "}
           {/*saveMethod()*/}

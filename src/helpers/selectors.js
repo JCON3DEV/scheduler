@@ -10,8 +10,8 @@ export function getAppointmentsForDay(state, day) {
     return state.appointments[appointmentId];
   });
   // if()
-  console.log("selector function output;", result);
-  console.log("length of result", result.length);
+  // console.log("selector function output;", result);
+  // console.log("length of result", result.length);
   return result;
 }
 
