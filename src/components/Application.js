@@ -26,8 +26,9 @@ export default function Application(props) {
     interviewers: {},
     // previously interviewers was an object
   });
+  // console.log("APPLICATION state:", state);
 
-  console.log("Orriginal state before axios;", state);
+  // console.log("Orriginal state before axios;", state);
   const setDay = (day) => setState({ ...state, day });
   // const setDays = (days) => setState({ ...state, days });
 
@@ -66,18 +67,33 @@ export default function Application(props) {
       ...state.appointments[id],
       interview: { ...interview },
     };
+
+    console.log("THis is appointment; ", appointment);
     const appointments = {
       ...state.appointments,
       [id]: appointment,
     };
-    setState({ ...state, appointments });
-    console.log("NEW STATE; .....", state);
+
+    // console.log("NEW APPLICATION STATE; .....", state);
+    const url = `/api/appointments/${id}`;
+    console.log("URL:", url);
+    const promise = axios
+      .put(url, appointment)
+      .then(function (response) {
+        setState({ ...state, appointments });
+        return true;
+      })
+      .catch((err) => {
+        console.log("PUT", err);
+        return false;
+      });
+    return promise;
   };
   // console.log("interview OBJ *** ", interview);
 
   let appointmentsList = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
-    console.log("%%%%%%%", interview);
+    console.log("%%%%%%% APPOINTMENT List interview;", interview);
     return (
       <Appointment
         key={appointment.id}

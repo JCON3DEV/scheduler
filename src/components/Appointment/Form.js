@@ -6,14 +6,14 @@ export default function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || "");
   const [name, setName] = useState(props.name || "");
 
-  console.log("Form props;....%%..", props);
+  // console.log("Form props;....%%..", props);
 
   const resetMethod = (onCancel) => {
     setInterviewer(null);
     setName("");
     props.onCancel(); //this is an empty fake function for testing
   };
-  console.log("interviewer name and interviewer", name, interviewer);
+  // console.log("interviewer name and interviewer", name, interviewer);
   const saveMethod = (nameOfStudent, interviewernumber) => {
     props.onSave(name, interviewer); //this is an empty fake function for testing
   };

@@ -4,14 +4,16 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
+import Status from "./Status"; //needs correcting
 import useVisualMode from "../../hooks/useVisualMode";
 import "./styles.scss";
 
 export default function Appointment(props) {
-  console.log("appointment props:......", props);
+  // console.log("appointment props:......", props);
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -21,9 +23,14 @@ export default function Appointment(props) {
       student: name,
       interviewer,
     };
-    // console.log("", );
-    props.bookInterview(props.id, interview);
-    transition(SHOW);
+    transition(SAVING);
+    props.bookInterview(props.id, interview).then((res) => {
+      if (res) {
+        transition(SHOW);
+      } else {
+      }
+    });
+    // transition(SAVE); // needs Status.js correcting
   }
 
   return (
@@ -33,6 +40,7 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          appointment={props.appointment}
         />
       )}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
@@ -43,6 +51,7 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
         />
       )}
+      {mode === SAVING && <Status message="Saving" />}
 
       {/* {transition(Empty)} */}
       {/* {transition(Show)} */}
