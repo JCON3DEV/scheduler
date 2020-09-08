@@ -14,6 +14,7 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
 
 export default function Appointment(props) {
   // console.log("appointment props:......", props);
@@ -46,9 +47,6 @@ export default function Appointment(props) {
       }
     });
   }
-  // function confirm() {
-  //   transition(CONFIRM);
-  // }
 
   return (
     <div className="appoinment">
@@ -58,24 +56,31 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           // onConfirm={} // need ot fill in due course
-          onDelete={() => transition(CONFIRM)} //
-          onCancel={() => transition(EMPTY)}
+          onDelete={() => transition(CONFIRM)} // This is deleting NOt transitioning
+          onEdit={() => transition(EDIT)}
+
           //  () => cancel(props.id)
         />
       )}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CREATE && (
         <Form
-          onCancel={() => transition(EMPTY)}
+          onCancel={back} //() => transition(EMPTY)}
           onSave={save}
           interviewers={props.interviewers}
         />
       )}
-      {mode === CONFIRM && (
-        <Confirm
-          onConfirm={cancel(props.id)}
-          onCancel={() => transition(EMPTY)}
+      {mode === EDIT && (
+        <Form
+          onCancel={back} //() => transition(EMPTY)}
+          onSave={save}
+          interviewer={props.interview.interviewer.id}
+          name={props.interview.student}
+          interviewers={props.interviewers}
         />
+      )}
+      {mode === CONFIRM && (
+        <Confirm onConfirm={() => cancel(props.id)} onCancel={back} />
       )}
       {mode === SAVING && <Status message="Saving" />}
       {mode === DELETING && <Status message="Deleting" />}
