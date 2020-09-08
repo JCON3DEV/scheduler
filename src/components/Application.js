@@ -76,7 +76,6 @@ export default function Application(props) {
 
     // console.log("NEW APPLICATION STATE; .....", state);
     const url = `/api/appointments/${id}`;
-    console.log("URL:", url);
     const promise = axios
       .put(url, appointment)
       .then(function (response) {
@@ -90,7 +89,27 @@ export default function Application(props) {
     return promise;
   };
   // console.log("interview OBJ *** ", interview);
+  function cancelInterview(appointmentId) {
+    console.log("THIS SHOULD BE ID 17 for DELETE ME; ", appointmentId);
+    console.log("APPLICATION STATE; .....", state);
+    // const appointment = {
+    //   ...state.appointments,
+    //   [appointmentId]:appointment,
+    // };
 
+    const url = `/api/appointments/${appointmentId}`;
+    const promise = axios
+      .delete(url)
+      .then(function (response) {
+        // setState({ ...state, appointment }); // needs fixing without mutating
+        return true;
+      })
+      .catch((err) => {
+        console.log("DELETE", err);
+        return false;
+      });
+    return promise;
+  }
   let appointmentsList = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     console.log("%%%%%%% APPOINTMENT List interview;", interview);
@@ -102,6 +121,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewersArray}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
         // {...appointment}
       />
     );
