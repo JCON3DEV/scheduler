@@ -30,8 +30,7 @@ export default function Application(props) {
   const setDay = (day) => setState({ ...state, day });
   // const setDays = (days) => setState({ ...state, days });
 
-  // const [days, setDays] = useState([]);
-  //  Below collects the days data from server
+  //  Below collects all the data from server
   useEffect(() => {
     Promise.all([
       axios.get("http://localhost:8001/api/days"),
@@ -119,7 +118,7 @@ export default function Application(props) {
     return promise;
   }
 
-  let appointmentsList = appointments.map((appointment) => {
+  const appointmentsList = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     console.log("%%%%%%% APPOINTMENT List interview;", interview);
     return (
@@ -139,7 +138,12 @@ export default function Application(props) {
   return (
     <main className="layout">
       <section className="sidebar">
-        <nav>
+        <img
+          className="sidebar--centered"
+          src="images/logo.png"
+          alt="Interview Scheduler"
+        />
+        <nav className="sidebar__menu">
           <DayList
             setState
             {...state}
@@ -148,20 +152,17 @@ export default function Application(props) {
             setDay={setDay}
           />
         </nav>
-        <img
-          className="sidebar--centered"
-          src="images/logo.png"
-          alt="Interview Scheduler"
-        />
         <hr className="sidebar__separator sidebar--centered" />
-        <nav className="sidebar__menu"></nav>
         <img
           className="sidebar__lhl sidebar--centered"
           src="images/lhl.png"
           alt="Lighthouse Labs"
         />
       </section>
-      <section className="schedule">{appointmentsList}</section>
+      <section className="schedule">
+        {appointmentsList}
+        <Appointment key="last" time="5pm" />
+      </section>
     </main>
   );
 }
