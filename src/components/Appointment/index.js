@@ -38,8 +38,8 @@ export default function Appointment(props) {
         transition(ERROR_SAVE, true);
       }
     });
-    // transition(SAVE); // needs Status.js correcting
   }
+
   function cancel(id) {
     transition(DELETING);
     props.cancelInterview(id).then((res) => {
@@ -58,24 +58,17 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          // onConfirm={} // need ot fill in due course
-          onDelete={() => transition(CONFIRM)} // This is deleting NOt transitioning
+          onDelete={() => transition(CONFIRM)}
           onEdit={() => transition(EDIT)}
-
-          //  () => cancel(props.id)
         />
       )}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === CREATE && (
-        <Form
-          onCancel={back} //() => transition(EMPTY)}
-          onSave={save}
-          interviewers={props.interviewers}
-        />
+        <Form onCancel={back} onSave={save} interviewers={props.interviewers} />
       )}
       {mode === EDIT && (
         <Form
-          onCancel={back} //() => transition(EMPTY)}
+          onCancel={back}
           onSave={save}
           interviewer={props.interview.interviewer.id}
           name={props.interview.student}
@@ -96,14 +89,6 @@ export default function Appointment(props) {
       {mode === ERROR_SAVE && (
         <Error message="Could not save appointment" onClose={back} />
       )}
-      {/* {props.interview ? (
-        <Show
-          student={props.interview.student}
-          interviewer={props.interview.interviewer}
-        ></Show>
-      ) : (
-        <Empty></Empty>
-      )} */}
     </div>
   );
 }

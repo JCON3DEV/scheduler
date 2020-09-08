@@ -72,9 +72,6 @@ export default function useApplicationData(props) {
   };
 
   function cancelInterview(appointmentId) {
-    // console.log("THIS SHOULD BE ID 17 for DELETE ME; ", appointmentId);
-    // console.log("APPLICATION STATE; .....", state);
-    // ####################################
     const appointment = {
       ...state.appointments[appointmentId],
       interview: null,
@@ -83,21 +80,17 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [appointmentId]: appointment,
     };
-    // const
-    //  ###################################
 
     const url = `/api/appointments/${appointmentId}`;
     const promise = axios
       .delete(url)
       .then(function (response) {
-        // ################################################################
         updateSpots(+1);
         setState({
           ...state,
           appointments,
           days: state.days,
-        }); // needs fixing without mutating
-        //####################################################################
+        });
         return true;
       })
       .catch((err) => {
@@ -106,17 +99,6 @@ export default function useApplicationData(props) {
       });
     return promise;
   }
-  console.log("*****%%%****", state.appointments);
-  console.log(
-    "state;... ",
-    state,
-    "setDay:..",
-    setDay,
-    "bookInterview",
-    bookInterview,
-    "cancelInterview",
-    cancelInterview
-  );
   return {
     state,
     setDay,
