@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
 
 import useApplicationData from "hooks/useApplicationData";
 import DayList from "components/DayList";
@@ -9,15 +8,6 @@ import { getAppointmentsForDay } from "helpers/selectors.js";
 import { getInterview } from "helpers/selectors.js";
 import { getInterviewersForDay } from "helpers/selectors.js";
 
-// import InterviewerListItem from "components/InterviewerListItem";
-// import Empty from "components/Appointment/Empty";
-// import Header from "components/Appointment/Header";
-// import Show from "components/Appointment/Show";
-// import Confirm from "components/Appointment/Confirm";
-// import Status from "components/Appointment/Status";
-// import Form from "components/Appointment/Form";
-// import Appointment from "components/Appointment";
-
 export default function Application(props) {
   const {
     state,
@@ -25,11 +15,6 @@ export default function Application(props) {
     bookInterview,
     cancelInterview,
   } = useApplicationData();
-  // console.log("APPLICATION state:", state);
-
-  // console.log("Orriginal state before axios;", state);
-
-  // const setDays = (days) => setState({ ...state, days });
 
   let appointments = getAppointmentsForDay(state, state.day);
   // console.log("CHECK IT,.....", appointments);
@@ -39,7 +24,7 @@ export default function Application(props) {
 
   const appointmentsList = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
-    console.log("%%%%%%% APPOINTMENT List interview;", interview);
+    // console.log("%%%%%%% APPOINTMENT List interview;", interview);
     return (
       <Appointment
         key={appointment.id}

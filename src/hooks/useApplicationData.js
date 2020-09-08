@@ -18,7 +18,7 @@ export default function useApplicationData(props) {
       axios.get("http://localhost:8001/api/appointments"),
       axios.get("http://localhost:8001/api/interviewers"),
     ]).then((responses) => {
-      console.log("the retured info ", responses);
+      // console.log("the retured info ", responses);
       setState((prev) => ({
         ...prev,
         days: responses[0].data,
@@ -26,19 +26,30 @@ export default function useApplicationData(props) {
         interviewers: responses[2].data,
       }));
       // console.log("********", responses[2].data);
-      console.log("Current state;", state);
+      // console.log("Current state;", state);
     });
   }, []);
   // the empty square brackts means that use effect runs only once after the render
 
+  //### Refactor this to use state.days.find ###
+  function updateSpots(increment) {
+    console.log("info monday", state.day);
+    for (const day of state.days) {
+      if (day.name === state.day) {
+        console.log("UPDATING SPOT", day);
+        day.spots += increment;
+      }
+    }
+  }
+
   const bookInterview = function (id, interview) {
-    console.log("book INterview function id and interview;", id, interview);
+    // console.log("book INterview function id and interview;", id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
     };
 
-    console.log("THis is appointment; ", appointment);
+    // console.log("THis is appointment; ", appointment);
     const appointments = {
       ...state.appointments,
       [id]: appointment,
@@ -49,7 +60,8 @@ export default function useApplicationData(props) {
     const promise = axios
       .put(url, appointment)
       .then(function (response) {
-        setState({ ...state, appointments });
+        updateSpots(-1);
+        setState({ ...state, appointments, days: state.days });
         return true;
       })
       .catch((err) => {
@@ -58,10 +70,10 @@ export default function useApplicationData(props) {
       });
     return promise;
   };
-  // console.log("interview OBJ *** ", interview);
+
   function cancelInterview(appointmentId) {
-    console.log("THIS SHOULD BE ID 17 for DELETE ME; ", appointmentId);
-    console.log("APPLICATION STATE; .....", state);
+    // console.log("THIS SHOULD BE ID 17 for DELETE ME; ", appointmentId);
+    // console.log("APPLICATION STATE; .....", state);
     // ####################################
     const appointment = {
       ...state.appointments[appointmentId],
@@ -79,9 +91,11 @@ export default function useApplicationData(props) {
       .delete(url)
       .then(function (response) {
         // ################################################################
+        updateSpots(+1);
         setState({
           ...state,
           appointments,
+          days: state.days,
         }); // needs fixing without mutating
         //####################################################################
         return true;
@@ -92,6 +106,17 @@ export default function useApplicationData(props) {
       });
     return promise;
   }
+  console.log("*****%%%****", state.appointments);
+  console.log(
+    "state;... ",
+    state,
+    "setDay:..",
+    setDay,
+    "bookInterview",
+    bookInterview,
+    "cancelInterview",
+    cancelInterview
+  );
   return {
     state,
     setDay,
