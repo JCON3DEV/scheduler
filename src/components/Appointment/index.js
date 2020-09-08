@@ -35,7 +35,7 @@ export default function Appointment(props) {
       if (res) {
         transition(SHOW);
       } else {
-        transition(ERROR_SAVE);
+        transition(ERROR_SAVE, true);
       }
     });
     // transition(SAVE); // needs Status.js correcting
@@ -46,7 +46,7 @@ export default function Appointment(props) {
       if (res) {
         transition(EMPTY);
       } else {
-        transition(ERROR_DELETE);
+        transition(ERROR_DELETE, true);
       }
     });
   }
@@ -94,10 +94,7 @@ export default function Appointment(props) {
         />
       )}
       {mode === ERROR_SAVE && (
-        <Error
-          message="Could not save appointment"
-          onClose={() => transition(EMPTY)}
-        />
+        <Error message="Could not save appointment" onClose={back} />
       )}
       {/* {props.interview ? (
         <Show
