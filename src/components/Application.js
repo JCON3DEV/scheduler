@@ -21,10 +21,8 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    // what is days?
     appointments: {},
     interviewers: {},
-    // previously interviewers was an object
   });
   // console.log("APPLICATION state:", state);
 
@@ -51,8 +49,6 @@ export default function Application(props) {
       console.log("Current state;", state);
     });
   }, []);
-  // responses[0].data = days
-  // responses[1].data = appontments
   // the empty square brackts means that use effect runs only once after the render
 
   let appointments = getAppointmentsForDay(state, state.day);
@@ -92,16 +88,28 @@ export default function Application(props) {
   function cancelInterview(appointmentId) {
     console.log("THIS SHOULD BE ID 17 for DELETE ME; ", appointmentId);
     console.log("APPLICATION STATE; .....", state);
-    // const appointment = {
-    //   ...state.appointments,
-    //   [appointmentId]:appointment,
-    // };
+    // ####################################
+    const appointment = {
+      ...state.appointments[appointmentId],
+      interview: null,
+    };
+    const appointments = {
+      ...state.appointments,
+      [appointmentId]: appointment,
+    };
+    // const
+    //  ###################################
 
     const url = `/api/appointments/${appointmentId}`;
     const promise = axios
       .delete(url)
       .then(function (response) {
-        // setState({ ...state, appointment }); // needs fixing without mutating
+        // ################################################################
+        setState({
+          ...state,
+          appointments,
+        }); // needs fixing without mutating
+        //####################################################################
         return true;
       })
       .catch((err) => {
@@ -110,6 +118,7 @@ export default function Application(props) {
       });
     return promise;
   }
+
   let appointmentsList = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     console.log("%%%%%%% APPOINTMENT List interview;", interview);
@@ -126,16 +135,6 @@ export default function Application(props) {
       />
     );
   });
-  // const appointments = state.appointments.map((appointment) => {
-  //   return (
-  //     <Appointment
-  //       key={appointment.id}
-  //       // time = {appointment.time}
-  //       // interview = {appointment.interview}
-  //       {...appointment}
-  //     />
-  //   );
-  // });
 
   return (
     <main className="layout">
@@ -162,12 +161,7 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />
       </section>
-      {/* <h1>This is my scheduler</h1> */}
       <section className="schedule">{appointmentsList}</section>
     </main>
   );
 }
-// key={appointments.id}
-//             id={appointments.id}
-//             time={appointments.time}
-//             // interview={appointments.interview}
