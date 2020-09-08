@@ -6,6 +6,7 @@ import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 import useVisualMode from "../../hooks/useVisualMode";
 import "./styles.scss";
 const EMPTY = "EMPTY";
@@ -15,6 +16,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
   // console.log("appointment props:......", props);
@@ -32,7 +35,7 @@ export default function Appointment(props) {
       if (res) {
         transition(SHOW);
       } else {
-        //to include an error
+        transition(ERROR_SAVE);
       }
     });
     // transition(SAVE); // needs Status.js correcting
@@ -43,7 +46,7 @@ export default function Appointment(props) {
       if (res) {
         transition(EMPTY);
       } else {
-        //to include an error
+        transition(ERROR_DELETE);
       }
     });
   }
@@ -84,8 +87,18 @@ export default function Appointment(props) {
       )}
       {mode === SAVING && <Status message="Saving" />}
       {mode === DELETING && <Status message="Deleting" />}
-      {/* {transition(Empty)} */}
-      {/* {transition(Show)} */}
+      {mode === ERROR_DELETE && (
+        <Error
+          message="Could not delete appointment"
+          onClose={() => transition(SHOW)}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error
+          message="Could not save appointment"
+          onClose={() => transition(EMPTY)}
+        />
+      )}
       {/* {props.interview ? (
         <Show
           student={props.interview.student}
