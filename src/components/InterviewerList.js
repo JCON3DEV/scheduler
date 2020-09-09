@@ -1,8 +1,12 @@
 import React from "react";
 import InterviewerListItem from "./InterviewerListItem";
+import propTypes from "prop-types";
 import "components/InterviewerList.scss";
 
-export default function InterviewerList(props) {
+function InterviewerList(props) {
+  InterviewerList.propTypes = {
+    interviewers: propTypes.array.isRequired,
+  };
   // console.log("Interviewer List Props $$$$%%$%$%; ", props);
   if (props.interviewers) {
     const ListItems = props.interviewers.map((interviewer) => {
@@ -29,6 +33,8 @@ export default function InterviewerList(props) {
     return <h1>INterviewerList.js WORDS!</h1>;
   }
 }
+
+export default InterviewerList;
 
 // example of props;
 // const interviewers = [
