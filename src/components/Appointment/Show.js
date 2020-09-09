@@ -7,7 +7,7 @@ export default function Show(props) {
   // show component should accept the following props;
   // student:String eg. "Lydia Miller-Jones"
   // interviewer: Object we can use the interview object that already exists in stories / index.js for this
-  console.log("SHOW props; ...", props);
+  // console.log("SHOW props; ...", props);
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">

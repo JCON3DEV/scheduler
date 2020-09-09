@@ -55,6 +55,9 @@ const fixtures = {
   },
 };
 
+// Below mauy be needed if this erero is seen;
+// TypeError: Cannot set property 'baseURL' of undefined
+// defaults: { baseURL: "" },
 export default {
   get: jest.fn((url) => {
     if (url === "/api/days") {
@@ -86,4 +89,4 @@ export default {
 //should export object ocntaining the functions;
 // exports {bookInterview,
 // cancelInterview,
-// updateSpots,}
+// useEffect,}
