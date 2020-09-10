@@ -52,7 +52,7 @@ export default function Appointment(props) {
   }
 
   return (
-    <div className="appoinment">
+    <div className="appoinment" data-testid="appointment">
       <Header time={props.time}></Header>
       {mode === SHOW && (
         <Show
