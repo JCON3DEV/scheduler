@@ -31,15 +31,17 @@ export default function useApplicationData(props) {
   }, []);
   // the empty square brackts means that use effect runs only once after the render
 
-  //### Refactor this to use state.days.find ###
-  function updateSpots(increment) {
+  //### Refactor this to use state.days.find ### - optional
+  function daysWithUpdatedSpots(increment) {
     console.log("info monday", state.day);
-    for (const day of state.days) {
+    let newDays = [...state.days];
+    for (const dayIndex in newDays) {
+      let day = newDays[dayIndex];
       if (day.name === state.day) {
-        console.log("UPDATING SPOT", day);
-        day.spots += increment;
+        newDays[dayIndex] = { ...day, spots: day.spots + increment };
       }
     }
+    return newDays;
   }
 
   const bookInterview = function (id, interview) {
@@ -60,8 +62,11 @@ export default function useApplicationData(props) {
     const promise = axios
       .put(url, appointment)
       .then(function (response) {
-        updateSpots(-1);
-        setState({ ...state, appointments, days: state.days });
+        // below is checking if there was a interview previously. update / create
+        let isUpdate = state.appointments[id].interview !== null;
+        let delta = isUpdate ? 0 : -1;
+        let newDays = daysWithUpdatedSpots(delta);
+        setState({ ...state, appointments, days: newDays });
         return true;
       })
       .catch((err) => {
@@ -85,11 +90,11 @@ export default function useApplicationData(props) {
     const promise = axios
       .delete(url)
       .then(function (response) {
-        updateSpots(+1);
+        let newDays = daysWithUpdatedSpots(+1);
         setState({
           ...state,
           appointments,
-          days: state.days,
+          days: newDays,
         });
         return true;
       })

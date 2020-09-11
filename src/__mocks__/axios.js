@@ -85,6 +85,7 @@ export default {
     }
   }),
   put: jest.fn((url) => {
+    console.log("MOCK PUT firing....");
     return Promise.resolve({
       status: 200,
       statusText: "OK",
