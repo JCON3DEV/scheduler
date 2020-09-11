@@ -15,7 +15,6 @@ import {
 } from "@testing-library/react";
 
 import Application from "components/Application";
-// import axios from "__mocks__/axios";
 import axios from "axios";
 
 afterEach(cleanup);
@@ -111,11 +110,9 @@ describe("Application", () => {
     const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
-    console.log(prettyDOM(appointment));
-    console.log(prettyDOM(day));
-    // above is debugging
     // below checks the number before the edit
     await expect(queryByText(day, "1 spot remaining")).toBeInTheDocument();
+    // above is debugging
 
     fireEvent.click(getByAltText(appointment, "Edit"));
     // 4. Enter the name "Lydia Miller-Jones" into the input with the placeholder "Enter Student Name".
@@ -129,16 +126,8 @@ describe("Application", () => {
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
     // 7. Wait until the element with the text "Lydia Miller-Jones" is displayed.
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
-    // console.log(prettyDOM(appointment));
-    // console.log(prettyDOM(day));
-    // await waitForElement(() => getByAltText(appointment, "Delete"));
-    // // const day = getAllByTestId(container, "day").find((day) =>
-    // //   queryByText(day, "Monday")
-    // // );
-    // console.log(prettyDOM(day));
     // 8. Checks the spots do not increasse
     await expect(queryByText(day, "1 spot remaining")).toBeInTheDocument();
-    // there is an error. the spots are decreasing!
   });
 
   /* Test 5 */
@@ -196,9 +185,7 @@ describe("Application", () => {
 
     // 5. Click the "confirm button"
     fireEvent.click(getByText(appointment, "Confirm"));
-    // 6 It shows the error screen when throw
-    console.log(prettyDOM(container));
-    // 7. Expect to see the error screen
+    // 6. Expect to see the error screen
     await waitForElement(() => getByText(appointment, "Error"));
   });
 });
