@@ -63,21 +63,24 @@ describe("Application", () => {
 
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
-    const appointments = await waitForElement(() =>
-      getAllByTestId(container, "appointment")
-    );
-    const appointment = appointments[1];
-    // console.log(prettyDOM(appointments));
 
-    // 3. Click the "Delete" button on the first appointment.
+    // 3. Click the "Delete" button on the booked appointment.
+    const appointment = getAllByTestId(
+      container,
+      "appointment"
+    ).find((appointment) => queryByText(appointment, "Archie Cohen"));
+    // console.log(prettyDOM(appointments));
     fireEvent.click(getByAltText(appointment, "Delete"));
     // 4. Make sure the confirm screen appears".
-    expect(getByText(appointment, "Confirm")).toBeInTheDocument();
+    expect(
+      getByText(appointment, "Delete the appointment?")
+    ).toBeInTheDocument();
 
     // console.log(prettyDOM(appointments));
     // 5. Click the "confirm button"
-    await fireEvent.click(getByText(appointment, "Confirm"));
+    fireEvent.click(getByText(appointment, "Confirm"));
     // 6. Confirm the day is Monday
+    await waitForElement(() => getByAltText(appointment, "Add"));
     const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
