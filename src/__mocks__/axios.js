@@ -91,6 +91,13 @@ export default {
       data: fixtures.interviewers,
     });
   }),
+  delete: jest.fn((url) => {
+    return Promise.resolve({
+      status: 200,
+      statusText: "OK",
+      data: fixtures.interviewers,
+    });
+  }),
 };
 
 //should export object ocntaining the functions;
