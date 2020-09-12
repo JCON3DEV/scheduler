@@ -1,5 +1,4 @@
 import React from "react";
-// import "components/Appointment/styles";
 
 export default function Header(props) {
   return (

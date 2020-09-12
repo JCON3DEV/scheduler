@@ -7,11 +7,8 @@ function InterviewerList(props) {
   InterviewerList.propTypes = {
     interviewers: propTypes.array.isRequired,
   };
-  // console.log("Interviewer List Props $$$$%%$%$%; ", props);
   if (props.interviewers) {
     const ListItems = props.interviewers.map((interviewer) => {
-      // console.log("****%%....", props);
-
       return (
         <InterviewerListItem
           key={interviewer.id}
@@ -35,7 +32,3 @@ function InterviewerList(props) {
 }
 
 export default InterviewerList;
-
-// example of props;
-// const interviewers = [
-// { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },

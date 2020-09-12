@@ -1,5 +1,4 @@
-import React, { Fragment } from "react";
-// import "components/application.css";
+import React from "react";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -20,12 +19,11 @@ const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
-  // console.log("appointment props:......", props);
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
   function save(name, interviewer) {
-    console.log("appointment save function.....:", name, interviewer);
     const interview = {
       student: name,
       interviewer,

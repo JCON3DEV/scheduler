@@ -2,18 +2,10 @@ import React from "react";
 import "./styles.scss";
 
 export default function Show(props) {
-  // console.log("Whats in here;", props);
-  // https://web.compass.lighthouselabs.ca/days/w07d2/activities/1112
-  // show component should accept the following props;
-  // student:String eg. "Lydia Miller-Jones"
-  // interviewer: Object we can use the interview object that already exists in stories / index.js for this
-  // console.log("SHOW props; ...", props);
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">
         <h2 className="text--regular">{props.student}</h2>
-        {/* The OR operator was removed to disallow an empty name field */}
-        {/* || "Lydia Miller-Jones" */}
         <section className="interviewer">
           <h4 className="text--light">Interviewer</h4>
           <h3 className="text--regular">

@@ -2,7 +2,6 @@ import React from "react";
 import "./styles.scss";
 
 export default function Empty(props) {
-  // console.log("on add function?", props);
   return (
     <main className="appointment__add">
       <img

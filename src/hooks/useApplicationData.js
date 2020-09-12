@@ -11,32 +11,25 @@ export default function useApplicationData(props) {
 
   const setDay = (day) => setState({ ...state, day });
 
-  //  Below collects all the data from server
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
       axios.get("/api/appointments"),
       axios.get("/api/interviewers"),
     ]).then((responses) => {
-      // console.log("the retured info ", responses);
       setState((prev) => ({
         ...prev,
         days: responses[0].data,
         appointments: responses[1].data,
         interviewers: responses[2].data,
       }));
-      // console.log("********", responses[2].data);
-      // console.log("Current state;", state);
     });
   }, []);
-  // the empty square brackts means that use effect runs only once after the render
 
-  //### Refactor this to use state.days.find ### - optional
   function daysWithUpdatedSpots(increment) {
-    console.log("info monday", state.day);
-    let newDays = [...state.days];
+    const newDays = [...state.days];
     for (const dayIndex in newDays) {
-      let day = newDays[dayIndex];
+      const day = newDays[dayIndex];
       if (day.name === state.day) {
         newDays[dayIndex] = { ...day, spots: day.spots + increment };
       }
@@ -45,27 +38,24 @@ export default function useApplicationData(props) {
   }
 
   const bookInterview = function (id, interview) {
-    // console.log("book INterview function id and interview;", id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
     };
 
-    // console.log("THis is appointment; ", appointment);
     const appointments = {
       ...state.appointments,
       [id]: appointment,
     };
 
-    // console.log("NEW APPLICATION STATE; .....", state);
     const url = `/api/appointments/${id}`;
     const promise = axios
       .put(url, appointment)
       .then(function (response) {
-        // below is checking if there was a interview previously. update / create
-        let isUpdate = state.appointments[id].interview !== null;
-        let delta = isUpdate ? 0 : -1;
-        let newDays = daysWithUpdatedSpots(delta);
+        // below is checking if there was a interview previously. To decide the increment
+        const isUpdate = state.appointments[id].interview !== null;
+        const delta = isUpdate ? 0 : -1;
+        const newDays = daysWithUpdatedSpots(delta);
         setState({ ...state, appointments, days: newDays });
         return true;
       })

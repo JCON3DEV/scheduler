@@ -6,12 +6,10 @@ import {
   waitForElement,
   fireEvent,
   getByText,
-  prettyDOM,
   getAllByTestId,
   getByAltText,
   getByPlaceholderText,
   queryByText,
-  getByTestId,
 } from "@testing-library/react";
 
 import Application from "components/Application";
@@ -69,7 +67,7 @@ describe("Application", () => {
       container,
       "appointment"
     ).find((appointment) => queryByText(appointment, "Archie Cohen"));
-    // checking no of spots before the delete
+    // checking No of spots before the delete
     const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
@@ -94,7 +92,7 @@ describe("Application", () => {
     expect(queryByText(newDay, "2 spots remaining")).toBeInTheDocument();
   });
 
-  //Test 4 - this needs correcting the spots are decreasing!
+  //Test 4
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
     // 1. Render the Application.
     const { container } = render(<Application />);
@@ -106,13 +104,11 @@ describe("Application", () => {
       "appointment"
     ).find((appointment) => queryByText(appointment, "Archie Cohen"));
 
-    //below is debugging
+    // below checks the number before the edit
     const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
-    // below checks the number before the edit
     await expect(queryByText(day, "1 spot remaining")).toBeInTheDocument();
-    // above is debugging
 
     fireEvent.click(getByAltText(appointment, "Edit"));
     // 4. Enter the name "Lydia Miller-Jones" into the input with the placeholder "Enter Student Name".
@@ -153,12 +149,6 @@ describe("Application", () => {
     // 6.  click save
     fireEvent.click(getByText(appointment, "Save"));
     await waitForElement(() => getByText(appointment, "Error"));
-    // expect(getByText(appointment, "Error")).toBeInTheDocument();
-
-    // 7. Expect to see the loading screen
-    // expect(getByText(appointment, "Saving")).toBeInTheDocument();
-    // 8. Expect to see the erro screen
-    //  FAILING needs correcting
   });
 
   // Test 6

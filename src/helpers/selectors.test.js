@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import {
   getAppointmentsForDay,
   getInterview,
@@ -110,7 +110,6 @@ test("getInterviewersForDay returns an array with a length matching the number o
 
 test("getInterviewersForDay returns an array containing the correct interviewer objects", () => {
   const [first] = getInterviewersForDay(state, "Tuesday");
-  // expect(first).toEqual(state.interviewers["1"]);
   expect(first).toEqual(state.interviewers["2"]);
 });
 
