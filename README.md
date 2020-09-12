@@ -1,5 +1,9 @@
 # Interview Scheduler
 
+    A scheduler app that allows you to choose a time and day for an appointment with an instructor. You can edit your details or cancel an existing interview.
+    The remaining slots for the chosen day are displayed and update according to any changes in bookings.
+    This uses React, Webpack, Axios as well as Storybook, Jest, Testing Library and Cypress for testing.
+
 ## Setup
 
 Install dependencies with `npm install`.
