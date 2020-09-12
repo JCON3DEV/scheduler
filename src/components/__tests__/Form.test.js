@@ -15,7 +15,6 @@ describe("Form", () => {
     },
   ];
 
-  // Below test case has not yet been coded for
   it("renders without student name if not provided", () => {
     const { getByPlaceholderText } = render(
       <Form interviewers={interviewers} />
@@ -23,7 +22,6 @@ describe("Form", () => {
     expect(getByPlaceholderText("Enter Student Name")).toHaveValue("");
   });
 
-  // alternative method. This has benefits over using Placeholder however for consistecy will use placeholder
   it("renders with initial student name", () => {
     const { getByTestId } = render(
       <Form interviewers={interviewers} name="Lydia Miller-Jones" />
@@ -51,12 +49,11 @@ describe("Form", () => {
     );
 
     fireEvent.click(getByText("Save"));
-    // BELOW IS RELEVENT TO THE VALIDATE FUNCTION ON FORM.JS
+
     expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
-    // this will be balnk at present because it is called directly after render
+
     expect(onSave).not.toHaveBeenCalled();
 
-    //below adds a line of input into the text field; (tests the true condition)
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
       target: { value: "Lydia Miller-Jones" },
     });
