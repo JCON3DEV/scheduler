@@ -19,15 +19,33 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
 
+    deploy:
+      machine:
+        enabled: true
+
+      working_directory: ~/client
+
+      steps:
+        - add_ssh_keys:
+            fingerprints:
+              - "74:43:d5:14:c6:3e:52:7e:66:63:51:05:af:e7:cd:e8"
+        - checkout
+        - run:
+            name: Push Master to Production
+            command: |
+              git push https://github.com/JCON3DEV/scheduler.git master:production
+
 workflows:
   version: 2
-  test:
+  test_and_deploy:
     jobs:
-      - build
-# version: 2.1
-# orbs:
-#   node: circleci/node@3.0.0
-# workflows:
-#   node-tests:
-#     jobs:
-#       - node/test
+      - build:
+          filters:
+            branches:
+              ignore: production
+      - deploy:
+          filters:
+            branches:
+              ignore: production
+          requires:
+            - build
