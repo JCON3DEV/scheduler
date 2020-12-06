@@ -11,7 +11,7 @@ import { getInterviewersForDay } from "helpers/selectors.js";
 export default function Application(props) {
   const {
     state,
-    setDay,
+    // setDay,
     bookInterview,
     cancelInterview,
   } = useApplicationData();
@@ -48,7 +48,7 @@ export default function Application(props) {
             {...state}
             day={state.day}
             days={state.days}
-            setDay={setDay}
+            // setDay={setDay}
           />
         </nav>
         <hr className="sidebar__separator sidebar--centered" />
