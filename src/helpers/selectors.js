@@ -32,7 +32,7 @@ export function getInterviewersForDay(state, day) {
   }
   const result = filteredDays.interviewers.map((interviewersId) => {
     if (!state.interviewers) {
-      return;
+      return [];
     }
     return state.interviewers[interviewersId];
   });
